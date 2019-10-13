@@ -1,7 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
-
 /**
  * Manages the game Tetris. Keeps track of the current piece and the grid.
  * Updates the display whenever the state of the game has changed.
@@ -27,7 +26,7 @@ public class Game {
 	public Game(Tetris display) {
 		grid = new Grid();
 		this.display = display;
-		piece = new LShape(1, Grid.WIDTH / 2 - 1, grid); // random piece method, choose it randomly
+		piece = createRandom();
 		isOver = false;
 	}
 
@@ -93,7 +92,7 @@ public class Game {
 	/** Updates the piece */
 	private void updatePiece() {
 		if (piece == null) {
-			piece = new LShape(1, Grid.WIDTH/2 -1, grid);//create random piece new private method
+			piece = createRandom();
 		}
 		// set Grid positions corresponding to frozen piece
 		// and then release the piece
@@ -107,5 +106,31 @@ public class Game {
 		}
 
 	}
-
+	/**
+	 * returns a random piece
+	 */
+	private Piece createRandom() {
+		int x = (int)(Math.random() * 7);
+		//System.out.println(x);
+		//x = 6; test pieces
+		Piece randomPiece;
+		if(x == 0) {
+			randomPiece = new LShape(1, Grid.WIDTH/2 -1, grid);
+		} else if( x == 1) {
+			randomPiece = new ZShape(1, Grid.WIDTH/2 -1, grid);
+		} else if( x == 2){
+			randomPiece = new SquareShape(1, Grid.WIDTH/2 -1, grid);
+		} else if ( x == 3) { 
+			randomPiece = new JShape(1, Grid.WIDTH/2 -1, grid);
+		} else if (x == 4) {
+			randomPiece = new TShape(1, Grid.WIDTH/2 -1, grid);
+		} else if(x == 5){
+			randomPiece = new SShape(1, Grid.WIDTH/2 -1, grid);
+		} else {
+			randomPiece = new BarShape(1, Grid.WIDTH/2 -1, grid);
+		}
+		
+		return randomPiece;
+		
+	}
 }
