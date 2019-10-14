@@ -1,6 +1,8 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.Random;
+
 /**
  * Manages the game Tetris. Keeps track of the current piece and the grid.
  * Updates the display whenever the state of the game has changed.
@@ -8,6 +10,7 @@ import java.awt.Point;
  * @author CSC 143
  */
 public class Game {
+	private static Random rand = new Random();
 
 	private Grid grid; // the grid that makes up the Tetris board
 
@@ -16,25 +19,52 @@ public class Game {
 	private Piece piece; // the current piece that is dropping
 
 	private boolean isOver; // has the game finished?
+	
+	public void randomPiece() {
+		//Piece randShape;
+		switch(rand.nextInt(8)) {
+			case 1:
+				piece = new LShape(1, Grid.WIDTH/2 -1, grid);
+				break;
+			case 2:
+				piece = new ZShape(1, Grid.WIDTH/2 -1, grid);
+				break;
+			case 3:
+				piece = new SquareShape(1, Grid.WIDTH/2 -1, grid);
+				break;
+			case 4:
+				piece = new JShape(1, Grid.WIDTH/2 -1, grid);
+				break;
+			case 5:
+				piece = new TShape(1, Grid.WIDTH/2 -1, grid);
+				break;
+			case 6:
+				piece = new SShape(1, Grid.WIDTH/2 -1, grid);
+				break;
+			case 7:
+				piece = new BarShape(1, Grid.WIDTH/2 -1, grid);
+				break;
+		}
+	}
 
 	/**
 	 * Creates a Tetris game
 	 * 
-	 * @param display the display
-	 *
+	 * @param Tetris
+	 *            the display
 	 */
 	public Game(Tetris display) {
 		grid = new Grid();
 		this.display = display;
-		piece = createRandom();
+		randomPiece();
 		isOver = false;
 	}
 
 	/**
 	 * Draws the current state of the game
 	 * 
-	 * @param g the Graphics context on which to draw
-	 *
+	 * @param g
+	 *            the Graphics context on which to draw
 	 */
 	public void draw(Graphics g) {
 		grid.draw(g);
@@ -46,20 +76,21 @@ public class Game {
 	/**
 	 * Moves the piece in the given direction
 	 * 
-	 * @param direction direction to move
-	 *
+	 * @param the
+	 *            direction to move
 	 */
 	public void movePiece(Direction direction) {
 		if (piece != null) {
-//            if (direction == Direction.DROP) {
-//                while (piece.canMove(Direction.DOWN)) {
-//                    piece.move(Direction.DOWN);
-//                }
-//            } else {
-                piece.move(direction);
-//            }
-//            piece.move(direction);
-        }
+			//add code here if moving down move down as long as it can move down
+			if (direction == Direction.DROP) {
+				while(piece.canMove(Direction.DOWN)) {
+					piece.move(Direction.DOWN);
+				}
+			} else {
+				piece.canMove(direction);
+			}
+			piece.move(direction);
+		}
 		updatePiece();
 		display.update();
 		grid.checkRows();
@@ -74,10 +105,12 @@ public class Game {
 		if (piece == null) {
 			return false;
 		}
+
 		// check if game is already over
 		if (isOver) {
 			return true;
 		}
+
 		// check every part of the piece
 		Point[] p = piece.getLocations();
 		for (int i = 0; i < p.length; i++) {
@@ -92,8 +125,11 @@ public class Game {
 	/** Updates the piece */
 	private void updatePiece() {
 		if (piece == null) {
-			piece = createRandom();
+			// CREATE A NEW PIECE HERE
+			//piece = new ZShape(1, Grid.WIDTH/2 -1, grid);
+			randomPiece();
 		}
+
 		// set Grid positions corresponding to frozen piece
 		// and then release the piece
 		else if (!piece.canMove(Direction.DOWN)) {
@@ -106,31 +142,5 @@ public class Game {
 		}
 
 	}
-	/**
-	 * returns a random piece
-	 */
-	private Piece createRandom() {
-		int x = (int)(Math.random() * 7);
-		//System.out.println(x);
-		//x = 6; test pieces
-		Piece randomPiece;
-		if(x == 0) {
-			randomPiece = new LShape(1, Grid.WIDTH/2 -1, grid);
-		} else if( x == 1) {
-			randomPiece = new ZShape(1, Grid.WIDTH/2 -1, grid);
-		} else if( x == 2){
-			randomPiece = new SquareShape(1, Grid.WIDTH/2 -1, grid);
-		} else if ( x == 3) { 
-			randomPiece = new JShape(1, Grid.WIDTH/2 -1, grid);
-		} else if (x == 4) {
-			randomPiece = new TShape(1, Grid.WIDTH/2 -1, grid);
-		} else if(x == 5){
-			randomPiece = new SShape(1, Grid.WIDTH/2 -1, grid);
-		} else {
-			randomPiece = new BarShape(1, Grid.WIDTH/2 -1, grid);
-		}
-		
-		return randomPiece;
-		
-	}
+
 }
