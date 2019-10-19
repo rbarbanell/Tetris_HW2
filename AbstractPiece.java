@@ -52,14 +52,15 @@ public abstract class AbstractPiece implements Piece {
 	}
 
 	/**
-	 * Returns the (row,col) grid coordinates occupied by this Piece
+	 * Returns the (col, row) grid coordinates occupied by this Piece
 	 * 
-	 * @return an Array of (row,col) Points
+	 * @return an Array of (col,row) Points
 	 */
 	public Point[] getLocations() {
 		Point[] points = new Point[PIECE_COUNT];
 		for (int i = 0; i < PIECE_COUNT; i++) {
-			points[i] = new Point(square[i].getRow(), square[i].getCol());
+			//changed to be (col , row) more similare to expected (x, y)
+			points[i] = new Point(square[i].getCol(), square[i].getRow());
 		}
 		return points;
 	}

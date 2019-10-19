@@ -2,6 +2,8 @@ import static org.junit.Assert.*;
 
 import java.awt.Color;
 
+import java.awt.Point;
+
 import org.junit.Test;
 
 public class TetrisUnitTest {
@@ -124,6 +126,95 @@ public class TetrisUnitTest {
 			}
 		}
 	}
-	
-	
+	/*
+	 * Tests All pieces Report canRotate correctly
+	 */
+	@Test
+    public void testCanRotate(){
+        //Create a grid
+        Grid testGrid = new Grid();
+        //Grid is 10 x 20
+        //Create an BarShape in center of grid
+        Piece testPiece = new BarShape(Grid.HEIGHT / 2,Grid.WIDTH / 2,testGrid);
+        assertTrue(testPiece.canRotate());
+        
+        //Create a grid
+        testGrid = new Grid();
+        //Create an J Shape in center of grid
+        testPiece = new JShape(Grid.HEIGHT / 2,Grid.WIDTH / 2,testGrid);
+        assertTrue(testPiece.canRotate());
+        
+        //Create a grid
+        testGrid = new Grid();
+        //Create an L Shape in center of grid
+        testPiece = new LShape(Grid.HEIGHT / 2,Grid.WIDTH / 2,testGrid);
+        assertTrue(testPiece.canRotate());
+        
+        //Create a grid
+        testGrid = new Grid();
+        //Create an S Shape in center of grid
+        testPiece = new SquareShape(Grid.HEIGHT / 2,Grid.WIDTH / 2,testGrid);
+        assertTrue(testPiece.canRotate());
+    }
+	/*
+	 * Tests All pieces Report canRotate correctly when rotation is illegal
+	 */
+	@Test
+    public void testCanNotRotate(){
+        //Create a grid
+        Grid testGrid = new Grid();
+        //Grid is 10 x 20
+        //Create an JShape against right wall
+        Piece testPiece = new JShape(Grid.HEIGHT / 2,Grid.WIDTH - 2,testGrid);
+        assertFalse(testPiece.canRotate());
+        
+        //Create a grid
+        testGrid = new Grid();
+        //Create an S Shape in center of grid
+        testPiece = new SShape(Grid.HEIGHT / 2,Grid.WIDTH - 2,testGrid);
+        //rotate once
+        testPiece.rotate();
+        //move right
+        testPiece.move(Direction.RIGHT);
+        assertFalse(testPiece.canRotate());
+        
+      //Create a grid
+        testGrid = new Grid();
+        //Create an S Shape in center of grid
+        testPiece = new BarShape(Grid.HEIGHT / 2,Grid.WIDTH - 3,testGrid);
+        //rotate once
+        testPiece.rotate();
+        //move right
+        testPiece.move(Direction.RIGHT);
+        testPiece.move(Direction.RIGHT);
+        assertFalse(testPiece.canRotate());
+    }
+	/*
+	 * Tests Shape Rotates correctly when allowed
+	 */
+	@Test
+    public void testDidRotate(){
+        //Create a grid
+        Grid testGrid = new Grid();
+        //Grid is 10 x 20
+        //Create a Bar Shape at 5,5 (should have plenty of space to rotate)
+        Piece testPiece = new BarShape(5, 5, testGrid);
+        //rotate piece
+        testPiece.rotate();
+        Point[] points = testPiece.getLocations();
+        /* Testing reported points
+        for(int i = 0; i < 4;i++) {
+        	System.out.println(i + "  "+ points[i].x + " , " + points[i].y);
+        }
+        */
+        assertEquals(points[0].x, 5);
+        assertEquals(points[0].y, 4);
+        assertEquals(points[1].x, 5);
+        assertEquals(points[1].y, 5);
+        assertEquals(points[2].x, 5);
+        assertEquals(points[2].y, 6);
+        assertEquals(points[3].x, 5);
+        assertEquals(points[3].y, 7);
+	}
+     
 }
