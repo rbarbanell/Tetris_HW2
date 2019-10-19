@@ -194,63 +194,63 @@ public class Square {
 	 * @param center the center square
 	 */
 	public boolean canRotate(Square center) {
-		// rotate to square
-		int endRow = center.row + (this.col - center.col);
-		int endCol = center.col + (center.row - this.row);
-		
-		if (endRow < 0 || endRow >= grid.HEIGHT) return false;
-		if (endCol < 0 || endCol >= grid.WIDTH) return false;
-
-		// first quadrant
-		if (this.row <= center.row && this.col >= center.col ) {
-			// loop from (this.row, this.col) to the corner (endRow, this.col)
-			// loop from (endRow,this.col) to (endRow,endCol)
-			for (int r = this.row + 1; r <= endRow; r ++)  {
-				if (grid.isSet(r, this.col)) return false;
-			}
-			for (int c = this.col - 1; c >= endCol; c--)  {
-				if (grid.isSet(endRow, c)) return false;
-			}
-			return true;
-			
-		//second quadrant
-		} else if (this.row >= center.row && this.col >= center.col) {
-			// loop from (this.row, this.col) to the corner (endRow, this.col)
-			// loop from (endRow,this.col) to (endRow,endCol)		
-			for (int r = this.row - 1; r >= endRow; r--)  {
-				if (grid.isSet(r, endCol) ) return false;
-			}
-			for (int c = this.col - 1; c >= endCol; c--)  {
-				if (grid.isSet(this.row, c) ) return false;
-			}
-			return true;
-			
-		//third quadrant
-		} else if (this.row >= center.row && this.col <= center.col) {
-			// loop from (this.row, this.col) to the corner (endRow, this.col)
-			// loop from (endRow,this.col) to (endRow,endCol)
-			for (int r = this.row - 1; r >= endRow; r--)  {
-				if (grid.isSet(r, this.col) ) return false;
-			}
-			for (int c = this.col + 1; c <= endCol; c++)  {
-				if (grid.isSet(endRow, c) ) return false;
-			}
-			return true;
-	
-		//fourth quadrant
-		} else if (this.row <= center.row && this.col <= center.col) {
-			// loop from (this.row, this.col) to the corner (endRow, this.col)
-			// loop from (endRow,this.col) to (endRow,endCol)
-			for (int r = this.row + 1; r <= endRow; r++)  {
-				if (grid.isSet(r, endCol) ) return false;
-			}
-			for (int c = this.col + 1; c <= endCol; c++)  {
-				if (grid.isSet(this.row, c) ) return false;	
-			}
-			return true;
-		}
-		return false;			
-	} 
+        // rotate to square
+        int endRow = center.row + (this.col - center.col);
+        int endCol = center.col + (center.row - this.row);
+        
+        if (endRow < 0 || endRow >= grid.HEIGHT) return false;
+        if (endCol < 0 || endCol >= grid.WIDTH) return false;
+        // quadrant?
+        // first
+        if (this.row <= center.row && this.col > center.col ) {
+            // loop from (this.row, this.col) to the corner (endRow, this.col)
+            // loop from (endRow,this.col) to (endRow,endCol)
+            for (int r = this.row + 1; r <= endRow; r ++)  {
+                if (grid.isSet(r, this.col)) return false;
+            }
+            for (int c = this.col - 1; c >= endCol; c--)  {
+                if (grid.isSet(endRow, c)) return false;
+            }
+            return true;
+            
+//            //second
+        } else if (this.row >= center.row && this.col >= center.col) {
+            // loop from (this.row, this.col) to the corner (endRow, this.col)
+            // loop from (endRow,this.col) to (endRow,endCol)        
+            for (int r = this.row - 1; r >= endRow; r--)  {
+                if (grid.isSet(r, endCol) ) return false;
+            }
+            for (int c = this.col - 1; c >= endCol; c--)  {
+                if (grid.isSet(this.row, c) ) return false;
+            }
+            return true;
+//            
+//            //third
+        } else if (this.row >= center.row && this.col < center.col) {
+            // loop from (this.row, this.col) to the corner (endRow, this.col)
+            // loop from (endRow,this.col) to (endRow,endCol)
+            for (int r = this.row - 1; r >= endRow; r--)  {
+                if (grid.isSet(r, this.col) ) return false;
+            }
+            for (int c = this.col + 1; c <= endCol; c++)  {
+                if (grid.isSet(endRow, c) ) return false;
+            }
+            return true;
+    
+//            //fourth
+        } else if (this.row < center.row && this.col <= center.col) {
+            // loop from (this.row, this.col) to the corner (endRow, this.col)
+            // loop from (endRow,this.col) to (endRow,endCol)
+            for (int r = this.row + 1; r <= endRow; r++)  {
+                if (grid.isSet(r, endCol) ) return false;
+            }
+            for (int c = this.col + 1; c <= endCol; c++)  {
+                if (grid.isSet(this.row, c) ) return false;    
+            }
+            return true;
+        }
+        return false;            
+    } 
 	
 	/*
 	 * rotate the square around the center piece
