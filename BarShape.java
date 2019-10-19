@@ -1,18 +1,29 @@
+
 import java.awt.Color;
 
+/**
+ * An L-Shape piece in the Tetris Game.
+ * 
+ * This piece is made up of 4 squares in the following configuration:
+ * 
+ * Sq <br>
+ * Sq <br>
+ * Sq Sq <br>
+ * 
+ * The game piece "floats above" the Grid. The (row, col) coordinates are the
+ * location of the middle Square on the side within the Grid
+ * 
+ * @author CSC 143
+ */
 public class BarShape extends AbstractPiece {
-	
-	public BarShape(int r, int c, Grid g) {
-		grid = g;
-		square = new Square[PIECE_COUNT];
-		ableToMove = true;
+		public BarShape(int r, int c, Grid g) {
+			super(r,c,g);
 
 		// Create the squares
-		square[0] = new Square(g, r - 1 , c - 1, Color.magenta, true);
-		square[1] = new Square(g, r - 1, c , Color.magenta, true);
-		square[2] = new Square(g, r - 1 , c + 1 , Color.magenta, true);
-		square[3] = new Square(g, r - 1 , c + 2, Color.magenta, true);
-	}
+			square[0] = new Square(g, r, c - 1, Color.cyan, true);
+			square[1] = new Square(g, r, c, Color.cyan, true);
+			square[2] = new Square(g, r, c + 1, Color.cyan, true);
+			square[3] = new Square(g, r, c + 2, Color.cyan, true);
+		}
 
-
-}
+}	

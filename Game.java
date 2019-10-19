@@ -126,7 +126,6 @@ public class Game {
 	private void updatePiece() {
 		if (piece == null) {
 			// CREATE A NEW PIECE HERE
-			//piece = new ZShape(1, Grid.WIDTH/2 -1, grid);
 			randomPiece();
 		}
 
@@ -141,6 +140,16 @@ public class Game {
 			piece = null;
 		}
 
+	}
+	
+	/*
+	 * rotate piece
+	 */
+	public void rotatePiece() {
+		if (piece != null) piece.rotate();
+		updatePiece();
+		display.update();
+		
 	}
 
 }

@@ -36,6 +36,8 @@ public interface Piece {
 	 */
 	public boolean canMove(Direction direction);
 	
-	//public void rotate();
+	public void rotate();
+	
+	public boolean canRotate();
 
 }

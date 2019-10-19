@@ -14,6 +14,12 @@ public abstract class AbstractPiece implements Piece {
 	// number of squares in one Tetris game piece
 	protected static final int PIECE_COUNT = 4;
 
+	public AbstractPiece(int r, int c, Grid g) {
+		grid = g;
+		square = new Square[PIECE_COUNT];
+		ableToMove = true;
+	}
+		
 	/**
 	 * Draws the piece on the given Graphics context
 	 */
@@ -81,6 +87,23 @@ public abstract class AbstractPiece implements Piece {
 
 		return answer;
 	}
-
-
+	
+	/**
+	 * 
+	 */
+	public void rotate() {
+		if (canRotate()) {
+			for (int i = 0; i < PIECE_COUNT; i++) {
+				square[i].rotate(square[1]);
+			}
+		}
+	}
+	
+	public boolean canRotate() {
+		boolean allTrue = true;
+		for (int i = 0; i < PIECE_COUNT; i++) {
+			allTrue = square[i].canRotate(square[1]) && allTrue;
+		}
+		return allTrue;
+	}
 }

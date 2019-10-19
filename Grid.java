@@ -33,19 +33,12 @@ public class Grid {
 
 	public static final Color EMPTY = Color.WHITE;
 
-
-	/***
-	 * Get board method
-	 */
-	public Square[][]getBoard(){
-		return this.board;
-	}
-
 	/**
 	 * Creates the grid
 	 */
 	public Grid() {
 		board = new Square[HEIGHT][WIDTH];
+
 		// put squares in the board
 		for (int row = 0; row < HEIGHT; row++) {
 			for (int col = 0; col < WIDTH; col++) {
@@ -84,53 +77,40 @@ public class Grid {
 		board[row][col].setColor(c);
 	}
 
-	/**
-	 * Checks for and remove all solid rows of squares.
-	 * 
-	 * If a solid row is found and removed, all rows above it are moved down and
-	 * the top row set to empty
-	 */
-
 	public void checkRows() {
-		int col,row;
-		for (row = 0; row< HEIGHT; row++) {
-			for( col = 0; col < WIDTH; col++) {
-				if(!isSet(row,col)) break;
-			}
-			if(col == WIDTH) // a row is found
-			{
-				removeRow(row);
-			}
-		}
-
-	}
-
-	private void removeRow(int r) {
-		//change color of that row to white
-		for (int col = 0; col < WIDTH; col++) {
-			set(r, col, EMPTY);
-		}
-
-		//move the rest of the thing down
-		for (int row = r - 1; row >= 0; row--) {
-			for (int col = 0; col < WIDTH; col++) {
-				if (isSet(row, col)) {
-					Color c = board[row][col].getColor();
-					board[row][col].setColor(EMPTY);
-					board[row + 1][col].setColor(c);
-				}
-			}
-		}
-	}
-
-
-
-
+        int col,row;
+        for (row = 0; row< HEIGHT; row++) {
+            for( col = 0; col < WIDTH; col++) {
+                if(!isSet(row,col)) break;
+            }
+            if(col == WIDTH) // a row is found
+            {
+                removeRow(row);
+            }
+        }
+    }
+    private void removeRow(int r) {
+        //change color of that row to white
+        for (int col = 0; col < WIDTH; col++) {
+            set(r, col, EMPTY);
+        }
+        //move the rest of the thing down
+        for (int row = r - 1; row >= 0; row--) {
+            for (int col = 0; col < WIDTH; col++) {
+                if (isSet(row, col)) {
+                    Color c = board[row][col].getColor();
+                    board[row][col].setColor(EMPTY);
+                    board[row + 1][col].setColor(c);
+                }
+            }
+        }
+    }
 
 	/**
 	 * Draws the grid on the given Graphics context
 	 */
 	public void draw(Graphics g) {
+
 		// draw the edges as rectangles: left, right in blue then bottom in red
 		g.setColor(Color.BLUE);
 		g.fillRect(LEFT - BORDER, TOP, BORDER, HEIGHT * Square.HEIGHT);

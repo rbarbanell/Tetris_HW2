@@ -44,6 +44,7 @@ public class Square {
 			throw new IllegalArgumentException("Invalid row =" + row);
 		if (col < 0 || col > Grid.WIDTH - 1)
 			throw new IllegalArgumentException("Invalid column  = " + col);
+
 		// initialize instance variables
 		grid = g;
 		this.row = row;
@@ -58,6 +59,13 @@ public class Square {
 	public int getRow() {
 		return row;
 	}
+	
+	/**
+	 * 
+	 */
+	public void setRow(int row) {
+		this.row = row;
+	}
 
 	/**
 	 * Returns the column for this Square
@@ -67,6 +75,12 @@ public class Square {
 	}
 
 	/**
+	 * 
+	 */
+	public void setCol(int col) {
+		this.col = col;
+	}
+	/**
 	 * Returns true if this Square can move 1 spot in direction d
 	 * 
 	 * @param direction
@@ -75,34 +89,31 @@ public class Square {
 	public boolean canMove(Direction direction) {
 		if (!ableToMove)
 			return false;
+
 		boolean move = true;
 		// if the given direction is blocked, we can't move
 		// remember to check the edges of the grid
 		switch (direction) {
 		case DOWN:
-			if (row == (Grid.HEIGHT - 1) || grid.isSet(row + 1, col)) {
+			if (row == (Grid.HEIGHT - 1) || grid.isSet(row + 1, col))
 				move = false;
-			}
 			break;
-        case LEFT:
-            if (col == 0 || grid.isSet(row,col - 1)) {
-				move = false;
-			}
-            break;
-        case RIGHT:
-            if(col == Grid.WIDTH - 1 || grid.isSet(row, col + 1)) {
-				move = false;
-			}
-            break;
-        
-        case DROP:
-			if (row == (Grid.HEIGHT - 1) || grid.isSet(row + 1, col)) {
-				move = false;
-				// currently doesn't support checking LEFT or RIGHT
-				// MODIFY so that it correctly returns if it can move left or right
 
-			}
-		}
+		// currently doesn't support checking LEFT or RIGHT
+		// MODIFY so that it correctly returns if it can move left or right
+		case LEFT:
+			if (col == 0 || grid.isSet(row, col - 1))
+				move = false;
+			break;
+		case RIGHT:
+			if (col == (Grid.WIDTH - 1) || grid.isSet(row, col + 1))
+				move = false;
+			break;
+		case DROP:
+			if (row == (Grid.HEIGHT - 1) || grid.isSet(row + 1, col))
+				move = false;
+			break;
+		}		
 		return move;
 	}
 
@@ -124,17 +135,25 @@ public class Square {
 			case DOWN:
 				row = row + 1;
 				break;
-            case LEFT:
-                col = col - 1;
-                break;
-            case RIGHT:
-                col = col + 1;
-                break;
+			case LEFT:
+				col = col - 1;
+				break;
+			case RIGHT:
+				col = col + 1;
+				break;
+			case DROP:
+				row = row + 1;
+				break;
+				
+				
 
+			// currently doesn't support moving LEFT or RIGHT
+			// MODIFY so that the Square moves appropriately
 			}
 		}
 	}
 
+	
 	/**
 	 * Changes the color of this square
 	 * 
@@ -144,7 +163,7 @@ public class Square {
 	public void setColor(Color c) {
 		color = c;
 	}
-
+	
 	/**
 	 * Gets the color of this square
 	 */
@@ -167,5 +186,81 @@ public class Square {
 			g.setColor(Color.BLACK);
 			g.drawRect(actualX, actualY, WIDTH, HEIGHT);
 		}
+	}
+	
+	/*
+	 * Returns true if this Square can rotate around the center square
+	 * 
+	 * @param center the center square
+	 */
+	public boolean canRotate(Square center) {
+		// rotate to square
+		int endRow = center.row + (this.col - center.col);
+		int endCol = center.col + (center.row - this.row);
+		
+		if (endRow < 0 || endRow >= grid.HEIGHT) return false;
+		if (endCol < 0 || endCol >= grid.WIDTH) return false;
+
+		// first quadrant
+		if (this.row <= center.row && this.col >= center.col ) {
+			// loop from (this.row, this.col) to the corner (endRow, this.col)
+			// loop from (endRow,this.col) to (endRow,endCol)
+			for (int r = this.row + 1; r <= endRow; r ++)  {
+				if (grid.isSet(r, this.col)) return false;
+			}
+			for (int c = this.col - 1; c >= endCol; c--)  {
+				if (grid.isSet(endRow, c)) return false;
+			}
+			return true;
+			
+		//second quadrant
+		} else if (this.row >= center.row && this.col >= center.col) {
+			// loop from (this.row, this.col) to the corner (endRow, this.col)
+			// loop from (endRow,this.col) to (endRow,endCol)		
+			for (int r = this.row - 1; r >= endRow; r--)  {
+				if (grid.isSet(r, endCol) ) return false;
+			}
+			for (int c = this.col - 1; c >= endCol; c--)  {
+				if (grid.isSet(this.row, c) ) return false;
+			}
+			return true;
+			
+		//third quadrant
+		} else if (this.row >= center.row && this.col <= center.col) {
+			// loop from (this.row, this.col) to the corner (endRow, this.col)
+			// loop from (endRow,this.col) to (endRow,endCol)
+			for (int r = this.row - 1; r >= endRow; r--)  {
+				if (grid.isSet(r, this.col) ) return false;
+			}
+			for (int c = this.col + 1; c <= endCol; c++)  {
+				if (grid.isSet(endRow, c) ) return false;
+			}
+			return true;
+	
+		//fourth quadrant
+		} else if (this.row <= center.row && this.col <= center.col) {
+			// loop from (this.row, this.col) to the corner (endRow, this.col)
+			// loop from (endRow,this.col) to (endRow,endCol)
+			for (int r = this.row + 1; r <= endRow; r++)  {
+				if (grid.isSet(r, endCol) ) return false;
+			}
+			for (int c = this.col + 1; c <= endCol; c++)  {
+				if (grid.isSet(this.row, c) ) return false;	
+			}
+			return true;
+		}
+		return false;			
+	} 
+	
+	/*
+	 * rotate the square around the center piece
+	 * 
+	 * @param center center piece
+	 */
+	public void rotate(Square center) {
+		int tempRow = this.getRow();
+		int tempCol = this.getCol();
+		this.row = center.row + (tempCol - center.col);
+		this.col = center.col + (center.row - tempRow);
 	}
 }

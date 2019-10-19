@@ -11,5 +11,5 @@
  *
  */
 public enum Direction {
-	LEFT, RIGHT, DOWN, DROP
+	LEFT, RIGHT, DOWN, DROP, ROTATE
 }

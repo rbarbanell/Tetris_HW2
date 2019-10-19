@@ -1,6 +1,4 @@
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Point;
 
 /**
  * An L-Shape piece in the Tetris Game.
@@ -19,9 +17,7 @@ import java.awt.Point;
 public class LShape extends AbstractPiece {
 	
 	public LShape(int r, int c, Grid g) {
-		grid = g;
-		square = new Square[PIECE_COUNT];
-		ableToMove = true;
+		super(r,c,g);
 
 		// Create the squares
 		square[0] = new Square(g, r - 1, c, Color.magenta, true);

@@ -53,15 +53,24 @@ public class EventController extends KeyAdapter implements ActionListener {
 		}
 		if (!gameOver) {
 			switch (e.getKeyCode()) {
-			case KeyEvent.VK_SPACE:
-				handleMove(Direction.DROP);
+			case KeyEvent.VK_D:
+				handleMove(Direction.DOWN);
 				break;
-            case KeyEvent.VK_LEFT:
-            	handleMove(Direction.LEFT);
-            	break;
+			case KeyEvent.VK_LEFT:
+				handleMove(Direction.LEFT);
+				break;
 			case KeyEvent.VK_RIGHT:
 				handleMove(Direction.RIGHT);
 				break;
+			case KeyEvent.VK_SPACE:
+				handleMove(Direction.DROP);
+				break;
+			case KeyEvent.VK_DOWN:
+				game.rotatePiece();
+				break;
+				
+			// HANDLE other keystrokes here
+
 			}
 		}
 	}
